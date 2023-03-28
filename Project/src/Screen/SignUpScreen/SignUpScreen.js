@@ -4,13 +4,13 @@ import CustomButton from '../../Components/CustomButton';
 import CustomInput from '../../Components/CustomInput';
 import SocialMediaButton from '../../Components/SocialMediaButton';
 import { useNavigation } from '@react-navigation/native';
+import {useForm} from 'react-hook-form';
 
 const SignUpScreen = () => {
 
-    const[userName,setUsername] = useState('');
-    const[password,setPassword] = useState('');
-    const[repeatPassword,setrepeatPassword] = useState('');
-    const[Email,setEmail] = useState('');
+    const{control,handleSubmit,watch} = useForm();
+
+    const pwd = watch('password');
 
     const navigate = useNavigation();
 
@@ -26,11 +26,13 @@ const SignUpScreen = () => {
   return (
     <View style = {styles.container} >
       <Text style = {styles.title}>Create Account</Text>
-      <CustomInput placeholder={'Username'} value={userName} setUsername ={setUsername} ></CustomInput>
-      <CustomInput placeholder={'Email'} value={Email} setValue={setEmail}></CustomInput>
-      <CustomInput placeholder={'Password'} value={password} setValue={setPassword} secureTextEntry={true}></CustomInput>
-      <CustomInput placeholder={'Repeat Password'} value={repeatPassword} setValue={setrepeatPassword} secureTextEntry={true}></CustomInput>
-      <CustomButton text={'Register'} onPress={pressRegisterButton}></CustomButton>
+      <CustomInput name = 'username' control = {control} placeholder={'Username'} secureTextEntry={false} rules={{required:true}}></CustomInput>
+      <CustomInput name = 'email' placeholder={'Email'} control = {control} secureTextEntry = {false} rules = {{required:true}}></CustomInput>
+      <CustomInput name = 'password' placeholder={'Password'} secureTextEntry={true} control = {control} rules = {{required:true}}></CustomInput>
+      <CustomInput name = 'repeatpass' placeholder={'Repeat Password'} control ={control} secureTextEntry={true} rules = {{validate : value => value === pwd || 'Password do not match'}}></CustomInput>
+      
+      
+      <CustomButton text={'Register'} onPress={handleSubmit(pressRegisterButton)}></CustomButton>
       <Text style = {styles.text}>By registering, you confirm that you accept our <Text style = {styles.link}> Terms of use </Text> and 
       <Text style = {styles.link}> Privacy Policy </Text> </Text>
       <SocialMediaButton></SocialMediaButton>

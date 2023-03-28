@@ -3,16 +3,16 @@ import React, { useState } from 'react'
 import CustomButton from '../../Components/CustomButton';
 import CustomInput from '../../Components/CustomInput';
 import SocialMediaButton from '../../Components/SocialMediaButton';
+import {useForm} from 'react-hook-form'
 
 const ConfirmEmailScreen = () => {
 
-    const[code,setCode] = useState('');
-
+  const{control,handleSubmit} = useForm();
 
   return (
     <View style = {styles.container} >
       <Text style = {styles.title}>Confirm Email</Text>
-      <CustomInput placeholder={'Code'} value={code} setUsername ={setCode} ></CustomInput>
+      <CustomInput placeholder={'Code'} name = 'code' control={control}></CustomInput>
       <CustomButton text={'Confirm'}></CustomButton>
       <CustomButton type='TERTIARY' text={'Resend Code'}></CustomButton>
       <CustomButton type='TERTIARY' text={'Back to Sign in'}></CustomButton>
